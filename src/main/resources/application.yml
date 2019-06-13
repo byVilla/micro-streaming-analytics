@@ -1,0 +1,11 @@
+principal:
+  queue:
+    name: principalQueue
+
+fixedDelay:
+  in:
+    milliseconds: 1000
+
+initialDelay:
+  in:
+    milliseconds: 500
