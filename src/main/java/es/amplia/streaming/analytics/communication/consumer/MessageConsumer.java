@@ -1,4 +1,4 @@
-package es.amplia.streaming.analytics.consumer;
+package es.amplia.streaming.analytics.communication.consumer;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,8 @@ public class MessageConsumer {
 		logger.info("message received: {}", message);
 	}
 
-	@Scheduled(fixedDelayString = "${processing.fixedDelay.in.milliseconds}")
+	@Scheduled(fixedDelayString = "${processing.fixedDelay.in.milliseconds}",
+			initialDelayString = "${processing.initialDelay.in.milliseconds}")
 	private void processingMessageList() {
 		List copy = messageList.stream().collect(Collectors.toList());
 		messageList.clear();

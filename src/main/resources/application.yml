@@ -6,19 +6,29 @@ rabbitmq:
   routing:
     key: routing_key
 
+message:
+  data:
+    version: 1.0.0
+    device: device
+    datastream:
+      id: key
+      feed: feed
+
 publish:
   fixedDelay:
     in:
       milliseconds: 1000
+  initialDelay:
+    in:
+      milliseconds: 500
 
 processing:
   fixedDelay:
     in:
       milliseconds: 10000
-
-initialDelay:
-  in:
-    milliseconds: 500
+  initialDelay:
+    in:
+      milliseconds: 10000
 
 default:
   listener:

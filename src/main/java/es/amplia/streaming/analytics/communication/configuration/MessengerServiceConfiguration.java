@@ -1,6 +1,6 @@
-package es.amplia.streaming.analytics.configuration;
+package es.amplia.streaming.analytics.communication.configuration;
 
-import es.amplia.streaming.analytics.consumer.MessageConsumer;
+import es.amplia.streaming.analytics.communication.consumer.MessageConsumer;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
