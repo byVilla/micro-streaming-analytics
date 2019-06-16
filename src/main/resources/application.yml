@@ -1,0 +1,48 @@
+rabbitmq:
+  queue:
+    name: main_queue
+  exchange:
+    name: direct_exchange
+  routing:
+    key: routing_key
+
+message:
+  data:
+    version: 1.0.0
+    device: device
+    datastream:
+      id: key
+      feed: feed
+
+publish:
+  fixedDelay:
+    in:
+      milliseconds: 1000
+  initialDelay:
+    in:
+      milliseconds: 500
+
+processing:
+  fixedDelay:
+    in:
+      milliseconds: 10000
+  initialDelay:
+    in:
+      milliseconds: 10000
+
+default:
+  listener:
+    method:
+      name: receiveMessage
+
+logging:
+  level:
+    root: DEBUG
+    es.amplia.streaming.analytics: DEBUG
+
+spring:
+  rabbitmq:
+    host: 192.168.99.100
+    port: 5672
+    username: guest
+    password: guest

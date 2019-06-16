@@ -1,0 +1,12 @@
+version: '2'
+services:
+  rabbitmq-node:
+    image: rabbitmq:management
+    hostname: rabbitmq-node
+    container_name: rabbitmq-node
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: private
+      RABBITMQ_DEFAULT_PASS: g*qJBpkvA3NFb-B7
