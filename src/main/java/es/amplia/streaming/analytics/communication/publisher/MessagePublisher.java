@@ -1,10 +1,11 @@
 package es.amplia.streaming.analytics.communication.publisher;
 
-import es.amplia.streaming.analytics.communication.dto.Datapoint;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import es.amplia.streaming.analytics.communication.dto.DataStream;
+import es.amplia.streaming.analytics.communication.dto.Datapoint;
 import es.amplia.streaming.analytics.communication.dto.MessageData;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +16,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Random;
 
+@Slf4j
 @Component
 public class MessagePublisher {
-
-	private static Logger logger = LogManager.getLogger(MessagePublisher.class);
 
 	@Autowired
 	private RabbitTemplate template;
@@ -35,18 +35,19 @@ public class MessagePublisher {
 	@Value(value = "${message.data.datastream.feed}")
 	private String feed;
 	private Random rand = new Random();
+	private Gson gson = new GsonBuilder().create();
 
 	@Scheduled(fixedDelayString = "${publish.fixedDelay.in.milliseconds}",
 			initialDelayString = "${publish.initialDelay.in.milliseconds}")
 	public void send() {
-		String message = generateMessage();
-		this.template.convertAndSend(exchangeName, routingKey, message);
-		logger.info("Sending message: {}", message);
+		MessageData message = generateMessage();
+		this.template.convertAndSend(exchangeName, routingKey, gson.toJson(message));
+		log.info("Sending message: {}", message);
 	}
 
-	private String generateMessage() {
+	private MessageData generateMessage() {
 		DataStream datastream = new DataStream(id, feed,
-				Collections.singletonList(new Datapoint(new Date().getTime(), rand.nextInt(100))));
-		return new MessageData(version, device, Collections.singletonList(datastream)).toString();
+				Collections.singletonList(new Datapoint(new Date().getTime(), rand.nextInt(10))));
+		return new MessageData(version, device, Collections.singletonList(datastream));
 	}
 }

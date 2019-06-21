@@ -1,12 +1,39 @@
-version: '2'
+version: "2.0"
 services:
-  rabbitmq-node:
+  rabbitmq:
     image: rabbitmq:management
-    hostname: rabbitmq-node
-    container_name: rabbitmq-node
+    container_name: rabbitmq
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - 5672:5672
+      - 15672:15672
+
+  mongodb:
+    image: mongo:4
+    container_name: mongo
+    ports:
+      - 27017:27017
+    command: --smallfiles
     environment:
-      RABBITMQ_DEFAULT_USER: private
-      RABBITMQ_DEFAULT_PASS: g*qJBpkvA3NFb-B7
+      MONGO_INITDB_ROOT_USERNAME: private
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: streaming_analytics
+
+  app:
+    build: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongodb
+    environment:
+      SPRING_RABBITMQ_HOST: 192.168.99.100
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: "guest"
+      SPRING_RABBITMQ_PASSWORD: "guest"
+      LOGGING_LEVEL_ROOT: INFO
+      PUBLISH_FIXEDDELAY_IN_MILLISECONDS: 1000
+      PROCESSING_FIXEDDELAY_IN_MILLISECONDS: 10000
+      SPRING_DATA_MONGODB_DATABASE: "streaming_analytics"
+      SPRING_DATA_MONGODB_HOST: 192.168.99.100
+      SPRING_DATA_MONGODB_PORT: 27017
+      SPRING_DATA_MONGODB_USERNAME: "private"
+      SPRING_DATA_MONGODB_PASSWORD: "secret"
