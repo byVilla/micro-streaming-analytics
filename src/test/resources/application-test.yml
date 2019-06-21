@@ -1,0 +1,7 @@
+publish:
+  initialDelay.in.milliseconds: 500
+  fixedDelay.in.milliseconds: 1000
+
+processing:
+  initialDelay.in.milliseconds: 10000
+  fixedDelay.in.milliseconds: 10000
