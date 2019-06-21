@@ -1,0 +1,17 @@
+rabbitmq:
+  queue.name: main_queue
+  exchange.name: direct_exchange
+  routing.key: routing_key
+
+message.data:
+  version: 1.0.0
+  device: device
+  datastream:
+    id: key
+    feed: feed
+
+publish.initialDelay.in.milliseconds: 500
+
+processing.initialDelay.in.milliseconds: 10000
+
+default.listener.method.name: receiveMessage

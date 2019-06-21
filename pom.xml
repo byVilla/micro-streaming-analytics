@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>es.amplia.messaging.services</groupId>
 	<artifactId>micro-streaming-analytics</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>Micro streaming analytics</name>
 	<description>Se trata de implementar una pequeña aplicación con Spring Boot que envíe cada segundo datos en formato JSON a una cola RabbitMQ y que a la vez lea cada 10 segundos dichos mensajes y genere información estadística descriptiva sobre los valores encontrados: media, mediana, moda, desviación típica, cuartiles, valor máximo y valor mínimo. Se generará un mensaje por salida estándar cada vez que se envíe la información a la cola y cada vez que se lea información de la cola que vaya mostrando la actividad del servicio.  Los mensajes JSON de la cola de entrada han de tener el formato definido para la recolección de datos IoT en la API sur Data Collection / Datastream (no DMM) de OpenGate. La naturaleza del dato simulado recolectado se deja a elección del programador, pero ha de ser numérico.  El resultado del cálculo estadístico se volcará, en formato JSON con una estructura a definir por el programador, a una base de datos MongoDB. El documento JSON deberá tener marca de tiempo y los datos estadísticos definidos anteriormente.</description>
 	<organization>
@@ -20,6 +20,7 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<docker.image.prefix>amplia</docker.image.prefix>
 	</properties>
 
 	<dependencies>
@@ -44,6 +45,11 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
@@ -60,6 +66,23 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.10</version>
+				<configuration>
+					<repository>
+						${docker.image.prefix}/${project.artifactId}
+					</repository>
+					<tag>${project.version}</tag>
+					<buildArgs>
+						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+					</buildArgs>
+					<noCache>true</noCache>
+					<useMavenSettingsForAuth>true</useMavenSettingsForAuth>
+					<googleContainerRegistryEnabled>false</googleContainerRegistryEnabled>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
