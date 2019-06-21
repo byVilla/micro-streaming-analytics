@@ -15,5 +15,3 @@ publish.initialDelay.in.milliseconds: 500
 processing.initialDelay.in.milliseconds: 10000
 
 default.listener.method.name: receiveMessage
-
-spring.data.mongodb.authentication-database: admin
