@@ -1,6 +1,6 @@
 # Micro streaming analytics
 
-[![GitHub tag](https://img.shields.io/badge/tag-v1.0.0-green.svg)](https://github.com/byVilla/micro-streaming-analytics/tags/1.0.0)
+[![GitHub tag](https://img.shields.io/badge/tag-v1.1.0-green.svg)](https://github.com/byVilla/micro-streaming-analytics/tags/1.1.0)
 
 ### Descripción:
 Se trata de implementar una pequeña aplicación con Spring Boot que envíe cada segundo datos en formato JSON a una cola RabbitMQ y que a la vez lea cada 10 segundos dichos mensajes y genere información estadística descriptiva sobre los valores encontrados: media, mediana, moda, desviación típica, cuartiles, valor máximo y valor mínimo.
